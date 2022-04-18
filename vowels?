@@ -1,0 +1,41 @@
+//Do you have any vowels?//
+
+{QWERTYUIOPLKJHGFDSAZXCVBNM}
+ALLOCATE count
+ALLOCATE position_a
+ALLOCATE position_e
+ALLOCATE position_i
+ALLOCATE position_o
+ALLOCATE position_u
+ALLOCATE compare_a
+ALLOCATE compare_e
+ALLOCATE compare_i
+ALLOCATE compare_o
+ALLOCATE compare_u
+ALLOCATE current
+ASSIGN count {N}
+ASSIGN position -1
+ASSIGN compare_a A
+ASSIGN compare_e E
+ASSIGN compare_i I
+ASSIGN compare_o O
+ASSIGN compare_u U
+#LOOP
+INCREMENT position
+COPY position_a current
+INCREMENT position_e
+COPY position_e current
+INCREMENT position_i
+COPY position_i current
+INCREMENT position_o
+COPY position_o current
+INCREMENT position_u
+COPY position
+JUMP_IF_EQUAL compare current #SUCCESS 
+JUMP_IF_EQUAL count position #FAIL
+JUMP #LOOP
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes
+
