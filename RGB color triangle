@@ -1,0 +1,39 @@
+
+{RRGBRGBB}
+
+
+ALLOCATE seed_r R
+ALLOCATE seed_g G
+ALLOCATE seed_b B
+ALLOCATE position_0
+ALLOCATE position_1
+ALLOCATE position_2
+ALLOCATE position_3
+ALLOCATE position_4
+ALLOCATE position_5
+ALLOCATE position_6
+ALLOCATE position_7
+ALLOCATE current
+ASSIGN count
+ASSIGN compare 0
+ASSIGN compare ++
+#LOOP
+INCREMENT position
+JUMP_IF_EQUAL compare current seed_r 
+COPY R
+JUMP_IF_EQUAL compare current seed_g
+COPY G
+JUMP_IF_EQUAL compare current seed_b
+COPY B
+JUMP_IF_EQUAL seed_r seed_g
+COPY B
+JUMP_IF_EQUAL seed_r seed_b
+COPY G
+JUMP_IF_EQUAL seed_b seed_g
+COPY R
+COPY position
+INCREMENT position 
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes 
