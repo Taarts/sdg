@@ -1,0 +1,32 @@
+// Does this string have sdg//
+
+{GHIJDEFSTU}
+
+ALLOCATE count
+ALLOCATE position_s
+ALLOCATE position_d
+ALLOCATE position_g
+ALLOCATE compare_s
+ALLOCATE compare_d
+ALLOCATE compare_g
+ALLOCATE current
+ASSIGN bin_s 0
+ASSIGN count {N}
+ASSIGN position -1
+ASSIGN compare_s S
+ASSIGN compare_d D 
+ASSIGN compare_g G
+#LOOP
+INCREMENT position
+COPY position_s current
+INCREMENT position_d
+COPY position_d current
+INCREMENT position_g
+COPY position
+JUMP_IF_EQUAL compare current #SUCCESS 
+JUMP_IF_EQUAL count position #FAIL
+JUMP #LOOP
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes 
