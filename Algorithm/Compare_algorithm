@@ -1,0 +1,111 @@
+ALLOCATE(label)                   - Make a memory spot with the given label.
+COPY_LETTER(label, label)         - Turn over the scrabble tile at the position determined by the value in label ____; copy the tile to a memory spot 'label'; turn the tile back over.
+ASSIGN(value, label)              - Put the value in the memory spot 'label'.
+INCREMENT(label)                  - Add `1` to the value of the number at memory spot 'label'. If it's a letter/tile, change to the next letter in the alphabet (if you want consider wrapping around, then consider "A" the next letter after "Z")
+JUMP_IF_EQUAL(label, label, step) - If the value in memory spot with the label ____ is equal to ____ then go to step number ____.
+EXIT(success)                     - STOP with the answer YES or NO
+
+ALLOCATE(count)
+ALLOCATE(pen_1, pen_2,  pen_3, pen_4)
+ALLOCATE(compare)
+ASSIGN("N", count)
+ASSIGN("starting letter", compare)
+COPY_LETTER(pen_1)
+#BEGIN_LOOP
+ASSIGN(compare)
+JUMP_IF_EQUAL(pen_1, #success)
+COPY_LETTER(pen_2)
+#BEGIN_LOOP
+ASSIGN(compare)
+JUMP_IF_EQUAL(pen_1, #success)
+JUMP_IF_EQUAL(pen_2, #success)
+COPY_LETTER(pen_3)
+#BEGIN_LOOP
+ASSIGN(compare)
+JUMP_IF_EQUAL(pen_1, #success)
+JUMP_IF_EQUAL(pen_2, #success)
+JUMP_IF_EQUAL(pen_3, #success)
+COPY_LETTER(pen_4)
+#BEGIN_LOOP
+EXIT(YES)
+EXIT(NO)
+
+_____
+
+// Does this string have sdg//
+
+{GHIJDEFSTU}
+
+ALLOCATE count
+ALLOCATE position_s
+ALLOCATE position_d
+ALLOCATE position_g
+ALLOCATE compare_s
+ALLOCATE compare_d
+ALLOCATE compare_g
+ALLOCATE current
+ASSIGN bin_s 0
+ASSIGN count {N}
+ASSIGN position -1
+ASSIGN compare_s S
+ASSIGN compare_d D 
+ASSIGN compare_g G
+#LOOP
+INCREMENT position
+COPY position_s current
+INCREMENT position_d
+COPY position_d current
+INCREMENT position_g
+COPY position
+JUMP_IF_EQUAL compare current #SUCCESS 
+JUMP_IF_EQUAL count position #FAIL
+JUMP #LOOP
+
+
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes 
+
+
+//Do you have any vowels?//
+
+{QWERTYUIOPLKJHGFDSAZXCVBNM}
+ALLOCATE count
+ALLOCATE position_a
+ALLOCATE position_e
+ALLOCATE position_i
+ALLOCATE position_o
+ALLOCATE position_u
+ALLOCATE compare_a
+ALLOCATE compare_e
+ALLOCATE compare_i
+ALLOCATE compare_o
+ALLOCATE compare_u
+ALLOCATE current
+ASSIGN count {N}
+ASSIGN position -1
+ASSIGN compare_a A
+ASSIGN compare_e E
+ASSIGN compare_i I
+ASSIGN compare_o O
+ASSIGN compare_u U
+#LOOP
+INCREMENT position
+COPY position_a current
+INCREMENT position_e
+COPY position_e current
+INCREMENT position_i
+COPY position_i current
+INCREMENT position_o
+COPY position_o current
+INCREMENT position_u
+COPY position
+JUMP_IF_EQUAL compare current #SUCCESS 
+JUMP_IF_EQUAL count position #FAIL
+JUMP #LOOP
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes
+

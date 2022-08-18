@@ -1,0 +1,30 @@
+Msg = {ATTACKATDAWN}
+
+Cph = {LEMON}
+
+CphExpanded={LEMON...Msg.Length}
+
+ASSIGN 0 = A
+INCREMENT 1 to 25
+COUNT Msg
+COUNT Cph
+ASSIGN position Msg 
+ASSIGN position Cph 
+RETURN sum Msg, Cph
+INCREMENT 1 position Msg, Cph
+REPEAT 
+COUNT = 11 stop
+
+/// -------
+Count the number of letter in the text
+Count the number of letters in the cipher 
+cipher repeats until it matches number of letter in text
+assign number to letter of the alphabet A = 0, B =1...
+#loop
+begin at letter 1, text & cipher
+add number allocated to letter 1 in text to letter 1 in cipher
+make a note of that number
+move to the next letter in text & in cipher
+repeat until count = 11
+Stop
+----------///

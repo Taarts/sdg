@@ -1,0 +1,47 @@
+
+# ALLOCATE(label)                   - Make a memory spot with the given label.
+# COPY_LETTER(label, label)         - Turn over the scrabble tile at the position determined by the value in label ____; copy the tile to a memory spot 'label'; turn the tile back over.
+# ASSIGN(value, label)              - Put the value in the memory spot 'label'.
+# INCREMENT(label)                  - Add `1` to the value of the number at memory spot 'label'. If it's a letter/tile, change to the next letter in the alphabet (if you want consider wrapping around, then consider "A" the next letter after "Z")
+# JUMP_IF_EQUAL(label, label, step) - If the value in memory spot with the label ____ is equal to ____ then go to step number ____.
+# EXIT(success)                     - STOP with the answer YES or NO
+
+
+{RRGBRGBB}
+
+
+ALLOCATE seed_r R
+ALLOCATE seed_g G
+ALLOCATE seed_b B
+ALLOCATE position_0
+ALLOCATE position_1
+ALLOCATE position_2
+ALLOCATE position_3
+ALLOCATE position_4
+ALLOCATE position_5
+ALLOCATE position_6
+ALLOCATE position_7
+ALLOCATE current
+ASSIGN count
+ASSIGN compare 0
+ASSIGN compare ++
+#LOOP
+INCREMENT position
+JUMP_IF_EQUAL compare current seed_r 
+COPY R
+JUMP_IF_EQUAL compare current seed_g
+COPY G
+JUMP_IF_EQUAL compare current seed_b
+COPY B
+JUMP_IF_EQUAL seed_r seed_g
+COPY B
+JUMP_IF_EQUAL seed_r seed_b
+COPY G
+JUMP_IF_EQUAL seed_b seed_g
+COPY R
+COPY position
+INCREMENT position 
+#FAIL
+STOP NO
+#SUCCESS
+STOP yes 

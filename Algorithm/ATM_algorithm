@@ -1,0 +1,133 @@
+#ATM_Default
+Y, Welcome screen
+N, GOTO #UNAVA
+ IMAGES: ~ rolling products for Bank ~
+ - touch screen to start
+User touches screen
+                            /* Card inserted */
+- Please insert valid card - Visa, Mastercard, Amex
+card inserted correctly
+Y
+                        /* Valid card or fee associated with this card? */
+INVALID_card GOTO EJECT_card
+- This card is not accepted at this ATM at this time, we apologize for any inconvenience caused. Please contact your card provider, and thank you for stopping by Blah Bank.
+#TRANSACTION_fee
+            N, GOTO PIN_query
+            Y - There is a $x.xx fee applied to this transaction, your card provider may apply additional fees to this as you are not using a card associated with Blah Bank at one of ATMs.
+                            /* Pin query */
+ GOTO PIN_query 
+N
+EJECT_card
+ - Please reinsert card correctly
+Y, GOTO TRANSACTION_fee
+N, GOTO 
+#PIN attempts
+ASSIGN attempt 0
+ - Please enter your PIN
+PIN_query
+Y, GOTO USER_account services
+N
+ - Please reenter PIN - you have __ attempts remaining
+ INCREMENT attempt
+    GOTO PIN_query
+    If attempt = 2 eject card
+    - Thank you for choosing Blah bank, Please go to a teller for additional services
+                        /* account select */
+#USER_account services
+    OPTION_acc_menu
+        - Checking
+        - Savings
+TIMER_start_a
+        IF TIMER > 75 seconds
+        - Would you like more time to make your selection?
+        ELSE ADD 24 seconds
+    TIMED_out GOTO EJECT_card
+                                /* account  services */
+USER_account_select
+    OPTION_select 
+        - withdraw cash
+            GOTO #VALUE
+        - deposit cash or check
+            GOTO #DEPOSIT
+        - print balance
+            GOTO #PRINT
+    GOTO TIMER_start_a
+                                /* Withdraw */
+#WITHDRAW
+ - Please enter total value wish to withdraw today in $10 denomination bills
+    #DENOMINATION 
+    #AVAILABLE_funds
+    QUERY ATM_supply ab
+    QUERY USER_account cd
+        ab >= cd GOTO AVAILABLE_funds
+        ab < cd 
+    #USER_account
+   /* QUERY USER_account DAILYLIMIT
+        cd >= $250 until 23:59:59 current date
+        Y
+        - You have exceeded your daily limit of $250.00 
+        N  */
+                                /* insufficient funds - User */
+            ATM_supply
+            Y, GOTO ATM_supply_ISF
+            N AVAILABLE_funds    
+    QUERY USER_account_ISF
+        - insufficient funds available in your account at this time
+        OPTION_select
+            - select another value you wish to withdraw today in $10 denomination bills
+            #VALUE GOTO VALUE
+            #EJECT GOTO EJECT card
+            #USER_account services
+        DISPLAY AVAILABLE_funds 
+    Y, GOTO AVAILABLE_funds
+    N, GOTO USER_account_ISF
+                                    /* insufficient funds - ATM */
+#ATM_supply
+    ATM_supply_ISF
+        - insufficient funds available in this machine at this time, please enter another amount, or go to a Teller inside. 
+    OPTION_select
+    #VALUE
+        GOTO VALUE
+    #EJECT_card
+        GOTO EJECT_card
+AVAILABLE_funds
+                                /* Deposit */
+#DEPOSIT
+ - Please enter total value wish to deposit today, whole bill values only.
+ - Please take the evelope from the dispenser, & put your cash to desposit in the envelope and place it in the open drawer
+ EJECT_envelope
+ USER takes envelope
+ OPEN_drawer
+ TIMER_start_b {countdown 75 seconds}
+    USER places money in envelope in open drawer
+    - thank you for your depsosit. 
+GOTO ADD_service
+    IF USER delayed at 60 seconds
+        - Do you need more time?
+        Y, ADD 30 seconds, TOTAL 90 seconds
+    ELSE TIMED_out, CLOSE_drawer
+                                    /* print balance */
+#PRINT
+    USER_account_select information
+    DateTime stamp of inquiry
+                                    /* add service loop */
+ADD_service
+    - Is there another service we can help you with?
+        Y, #USER_account_select
+        N
+                                        /* denied service */
+EJECT_card 
+    USER_account_ISF, ATM_supply, TIMED_out Stop
+                                        /* completed withdrawal */
+    VALUE
+- please take your card
+GOTO ATM_Default
+- Please take your cash
+EJECT_cash
+- Please take your receipt
+EJECT_receipt
+- Thank you for choosing Blah bank.
+GOTO ATM_Default
+                                /* OUT OF SERVICE */
+#UNAV
+- This machiine is unavailable for use at this time. Please go inside for help to a Teller. Thank you for choosing Blah Bank.
